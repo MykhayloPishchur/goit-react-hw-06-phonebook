@@ -22,7 +22,7 @@
   align-items: center;
 }
 .error {
-  border-radius: 5px;
+  border-radius: 4px;
   width: 50%;
   background-color: red;
   color: white;
