@@ -1,13 +1,17 @@
 import { createStore, combineReducers } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import counterReducer from "./counter/counter-reducer";
-import todosReducer from "./todos/todos-reducer";
+import contactReducer from "./Reducers/contacts";
+import filterReducer from "./Reducers/filter";
+import duplicateReducer from "./Reducers/checkduplicate";
 
 const rootReducer = combineReducers({
-  counter: counterReducer,
-  todos: todosReducer,
+  contact: contactReducer,
+  filter: filterReducer,
+  dublicate: duplicateReducer,
 });
 
-const store = createStore(rootReducer, composeWithDevTools());
+const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 export default store;

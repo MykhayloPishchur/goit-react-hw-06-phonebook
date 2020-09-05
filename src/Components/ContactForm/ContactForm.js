@@ -1,27 +1,24 @@
 import React, { Component } from "react";
 import styles from "./contactform.module.css";
+import { addContact } from "../../Redux/Actions/contact";
+import { connect } from "react-redux";
 
-const shortId = require("shortid");
-
-export default class App extends Component {
+class contactform extends Component {
   state = {
     name: "",
     number: "",
   };
 
-  handleChange = (e) =>
+  handleInput = (e) =>
     this.setState({
       [e.currentTarget.name]: e.currentTarget.value,
     });
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log(this.props);
-    this.props.onSubmit({
-      id: shortId.generate(),
-      name: this.state.name,
-      number: this.state.number,
-    });
+
+    this.props.onSubmit(this.state);
+
     this.setState({
       name: "",
       number: "",
@@ -39,7 +36,7 @@ export default class App extends Component {
               className={styles.input}
               name="name"
               type="text"
-              onChange={this.handleChange}
+              onChange={this.handleInput}
               value={name}
             ></input>
             <h3>Number</h3>
@@ -49,7 +46,7 @@ export default class App extends Component {
               pattern="[0-9]{3}-[0-9]{2}-[0-9]{2}"
               placeholder="000-00-00"
               type="tel"
-              onChange={this.handleChange}
+              onChange={this.handleInput}
               value={number}
             ></input>
             {/* <small>Format : 000-00-00</small> */}
@@ -71,3 +68,9 @@ export default class App extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit: (data) => dispatch(addContact(data)),
+});
+
+export default connect(null, mapDispatchToProps)(contactform);
