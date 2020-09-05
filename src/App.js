@@ -14,28 +14,6 @@ class App extends Component {
 
     return (
       <div className={style.container}>
-        <div className={style.headWrapper}>
-          <CSSTransition
-            in={true}
-            appear={true}
-            timeout={500}
-            classNames={style}
-          >
-            <h1 className={style.title}>Phonebook</h1>
-          </CSSTransition>
-
-          {/* <CSSTransition
-            in={isExist}
-            timeout={250}
-            classNames={style}
-            unmountOnExit
-          >
-            <div onClick={this.handleCloseError} className={style.error}>
-              {duplicateContact} already exist!
-            </div>
-          </CSSTransition> */}
-        </div>
-
         <ContactForm></ContactForm>
 
         <CSSTransition

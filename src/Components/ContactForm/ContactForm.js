@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import styles from "./contactform.module.css";
 import { addContact } from "../../Redux/Actions/contact";
 import { connect } from "react-redux";
+import { CSSTransition } from "react-transition-group";
 
 class contactform extends Component {
   state = {
     name: "",
     number: "",
+    isExist: false,
+    duplicateContact: "",
   };
 
   handleInput = (e) =>
@@ -17,18 +20,54 @@ class contactform extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    this.props.onSubmit(this.state);
+    const { name } = this.state;
+    const { contacts } = this.props;
 
-    this.setState({
-      name: "",
-      number: "",
-    });
+    const avaibleNames = contacts.map((contact) => contact.name.toLowerCase());
+
+    if (avaibleNames.includes(name.toLowerCase())) {
+      this.setState({ isExist: true, duplicateContact: name });
+      setTimeout(
+        () => this.setState({ isExist: false, duplicateContact: "" }),
+        5000
+      );
+    } else {
+      this.props.onSubmit(this.state);
+      this.setState({
+        name: "",
+        number: "",
+        isExist: false,
+        duplicateContact: "",
+      });
+    }
   };
 
   render() {
-    const { name, number } = this.state;
+    const { name, number, isExist, duplicateContact } = this.state;
     return (
       <div>
+        <div className={styles.headWrapper}>
+          <CSSTransition
+            in={true}
+            appear={true}
+            timeout={500}
+            classNames={styles}
+          >
+            <h1 className={styles.title}>Phonebook</h1>
+          </CSSTransition>
+
+          <CSSTransition
+            in={isExist}
+            timeout={250}
+            classNames={styles}
+            unmountOnExit
+          >
+            <div className={styles.error}>
+              {duplicateContact} already exist!
+            </div>
+          </CSSTransition>
+        </div>
+
         <div className={styles.border}>
           <form className={styles.form} onSubmit={this.handleSubmit}>
             <h3>Name</h3>
@@ -69,8 +108,12 @@ class contactform extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  contacts: state.contact,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   onSubmit: (data) => dispatch(addContact(data)),
 });
 
-export default connect(null, mapDispatchToProps)(contactform);
+export default connect(mapStateToProps, mapDispatchToProps)(contactform);
