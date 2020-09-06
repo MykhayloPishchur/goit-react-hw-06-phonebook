@@ -1,3 +1,7 @@
+import { addContact, deleteContact } from "../Actions/contact";
+
+import { createReducer } from "@reduxjs/toolkit";
+
 const initialState = [
   { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
   { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
@@ -5,17 +9,12 @@ const initialState = [
   { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
 ];
 
-const phoneBookReducer = (state = initialState, { type, payload }) => {
-  switch (type) {
-    case "ADD_CONTACT":
+export default createReducer(initialState, {
+  [addContact]: (state, { payload }) => {
+    if (!state.find(({ name }) => name === payload.name)) {
       return [...state, payload];
-
-    case "DELETE_CONTACT":
-      return state.filter((contact) => contact.id !== payload.id);
-
-    default:
-      return state;
-  }
-};
-
-export default phoneBookReducer;
+    }
+  },
+  [deleteContact]: (state, action) =>
+    state.filter((contact) => contact.id !== action.payload),
+});

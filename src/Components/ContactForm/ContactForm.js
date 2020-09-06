@@ -22,8 +22,8 @@ class contactform extends Component {
 
     const { name } = this.state;
     const { contacts } = this.props;
-
-    const avaibleNames = contacts.map((contact) => contact.name.toLowerCase());
+    console.log(this.props);
+    const avaibleNames = contacts.map((item) => item.name.toLowerCase());
 
     if (avaibleNames.includes(name.toLowerCase())) {
       this.setState({ isExist: true, duplicateContact: name });

@@ -1,21 +1,14 @@
+import { createAction } from "@reduxjs/toolkit";
 const shortId = require("shortid");
 
-const addContact = ({ name, number }) => {
-  return {
-    type: "ADD_CONTACT",
-    payload: {
-      id: shortId.generate(),
-      name,
-      number,
-    },
-  };
-};
-
-const deleteContact = (id) => ({
-  type: "DELETE_CONTACT",
+const addContact = createAction("ADD_CONTACT", ({ name, number }) => ({
   payload: {
-    id,
+    id: shortId.generate(),
+    name,
+    number,
   },
-});
+}));
+
+const deleteContact = createAction("DELETE_CONTACT");
 
 export { addContact, deleteContact };
