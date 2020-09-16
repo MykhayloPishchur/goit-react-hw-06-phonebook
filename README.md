@@ -1,1 +1,1 @@
-Homepage : https://goit-react-hw-05.netlify.app/
+Homepage : https://redux-practicing.netlify.app/
