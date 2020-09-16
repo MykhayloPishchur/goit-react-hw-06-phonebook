@@ -42,6 +42,14 @@ class contactform extends Component {
     }
   };
 
+  componentDidUpdate(prevState) {
+    const { contacts } = this.props;
+    if (prevState.contacts !== contacts) {
+      localStorage.setItem("contacts", JSON.stringify(contacts));
+      console.log(contacts);
+    }
+  }
+
   render() {
     const { name, number, isExist, duplicateContact } = this.state;
     return (
